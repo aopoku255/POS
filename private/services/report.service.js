@@ -4,6 +4,9 @@ const fs = require("fs");
 const Invoice = require("../schemas/Invoice");
 const { jsPDF } = require("jspdf");
 const FileSaver = require("file-saver");
+const pdf = require("html-pdf");
+const pdfTemplate = require("../docs/index");
+
 async function fetchReports({ req, res }) {
   const { shop_id } = req.body;
   // const results = await Invoice.find({ shop_id });
@@ -17,8 +20,7 @@ async function fetchReports({ req, res }) {
   };
   // return { message: "success", data: results };
 
-  try {
-    // Define the PDF content
+
     const docDefinition = {
       styles: {
         header: {
@@ -67,7 +69,19 @@ async function fetchReports({ req, res }) {
     // FileSaver.saveAs(blob, "hello world.txt");
 
     return { message: "success", data: pdfFiles };
-  } catch (error) {}
+
 }
 
 module.exports = { fetchReports };
+
+// async function fetchReports({ req, res }) {
+//   pdf.create(pdfTemplate(req.body), {}).toFile("result.pdf", (err) => {
+//     if (err) {
+//       res.send(Promise.reject());
+//     }
+
+//     res.send(Promise.resolve());
+//   });
+// }
+
+// module.exports = { fetchReports };
